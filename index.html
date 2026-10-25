@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WebGL - 2D and 3D graphics for the web</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav>
+    <a href="#what">What</a>
+    <a href="#how">How</a>
+    <a href="#demo">Demo</a>
+    <a href="#code">Code</a>
+    <a href="#uses">Uses</a>
+  </nav>
+
+  <header class="hero">
+    <canvas id="hero-canvas"></canvas>
+    <div class="hero-text">
+      <h1>WebGL</h1>
+      <p>2D and 3D graphics for the web</p>
+      <p class="hint">Move your mouse over the dots</p>
+    </div>
+  </header>
+
+  <main>
+    <section id="what" class="reveal">
+      <h2>What is WebGL?</h2>
+      <p>WebGL is a JavaScript API that draws graphics inside a canvas element. It talks directly to the graphics card (GPU), so it can render fast 2D and 3D scenes without plugins.</p>
+      <p>This whole page uses it: the background above and the cube below are drawn with pure WebGL, with no libraries.</p>
+    </section>
+
+    <section id="how">
+      <h2>How does it work?</h2>
+      <div class="cards">
+        <article class="card reveal"><span>1</span><h3>Data</h3><p>JavaScript sends points (vertices) to the GPU.</p></article>
+        <article class="card reveal"><span>2</span><h3>Vertex shader</h3><p>A small program places every point on the screen.</p></article>
+        <article class="card reveal"><span>3</span><h3>Rasterization</h3><p>The GPU turns triangles into pixels.</p></article>
+        <article class="card reveal"><span>4</span><h3>Fragment shader</h3><p>Another program chooses the color of each pixel.</p></article>
+      </div>
+    </section>
+
+    <section id="demo" class="reveal">
+      <h2>Interactive demo</h2>
+      <p>Drag the cube and let go to throw it.</p>
+      <canvas id="cube-canvas" width="600" height="400"></canvas>
+      <p class="info" id="cube-info"></p>
+      <div class="controls">
+        <div>
+          <button class="swatch" data-color="0.36,0.55,0.94" style="background:#5b8def" aria-label="Blue"></button>
+          <button class="swatch" data-color="0.30,0.76,0.54" style="background:#4cc38a" aria-label="Green"></button>
+          <button class="swatch" data-color="0.92,0.42,0.30" style="background:#eb6b4d" aria-label="Orange"></button>
+        </div>
+        <label>Speed <input type="range" id="speed" min="0" max="5" step="0.5" value="2"></label>
+        <label><input type="checkbox" id="wire"> Wireframe</label>
+      </div>
+    </section>
+
+    <section id="code" class="reveal">
+      <h2>Minimal code</h2>
+      <p>The core of a "hello triangle":</p>
+      <pre><code>const gl = canvas.getContext("webgl");
+
+// Link the shaders into a program
+const program = gl.createProgram();
+gl.attachShader(program, vertexShader);
+gl.attachShader(program, fragmentShader);
+gl.linkProgram(program);
+gl.useProgram(program);
+
+// Send 3 points to the GPU and draw
+const points = new Float32Array([0, 0.8, -0.8, -0.8, 0.8, -0.8]);
+gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+gl.bufferData(gl.ARRAY_BUFFER, points, gl.STATIC_DRAW);
+gl.drawArrays(gl.TRIANGLES, 0, 3);</code></pre>
+    </section>
+
+    <section id="uses" class="reveal">
+      <h2>Uses and sources</h2>
+      <p>WebGL powers browser games, online maps, data visualizations and product viewers.</p>
+      <p><strong>Other APIs used here:</strong> Intersection Observer (scroll animations), Pointer Events (dragging the cube) and Page Visibility (pauses drawing in hidden tabs).</p>
+      <ul>
+        <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API" target="_blank" rel="noopener">MDN: WebGL API</a></li>
+        <li><a href="https://www.khronos.org/webgl/" target="_blank" rel="noopener">Khronos Group: WebGL</a></li>
+        <li><a href="https://webglfundamentals.org/" target="_blank" rel="noopener">WebGL Fundamentals</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
